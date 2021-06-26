@@ -9,19 +9,25 @@ const dotenv=require('dotenv');
 const sequelize = require('./database');
 const User = require('./models/user');
 const expance=require('./models/expense');
+const premium=require('./models/premium');
 
 const adminRouter=require('./Router/admin');
-//const { HasMany } = require('sequelize');
+const PremiumRouter=require('./Router/Premium_User');
+
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json()); 
 
 app.use(adminRouter);
+app.use(PremiumRouter);
 
 
 User.hasMany(expance);
 expance.belongsTo(User);
+
+User.hasMany(premium);
+premium.belongsTo(User);
 
 sequelize.sync()
     .then(() => {
